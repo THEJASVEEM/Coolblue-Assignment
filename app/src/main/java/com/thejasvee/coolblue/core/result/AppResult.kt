@@ -7,7 +7,7 @@ sealed interface AppResult<out T> {
         val data: T
     ) : AppResult<T>
 
-    data class Error<T>(
+    data class Error(
         val message: String,
         val type: ErrorType,
         val cause: Throwable? = null

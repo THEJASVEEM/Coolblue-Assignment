@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class ProductRemoteDataSourceImpl @Inject constructor(
     private val productApi: ProductApi
-) : ProductRemoteDatasource {
+) : ProductRemoteDataSource {
 
     override suspend fun searchProducts(
         query: String,
