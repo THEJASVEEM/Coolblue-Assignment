@@ -5,9 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+
 
 @Composable
 fun SearchHeader(
@@ -18,24 +17,16 @@ fun SearchHeader(
     ) {
         Text(
             text = "Hello, what phones",
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontSize = 20.sp,
-                lineHeight = 28.sp,
-                fontWeight = FontWeight.Medium,
-                letterSpacing = (-0.45).sp,
-                color = Color(0xFF0A0A0A)
-            )
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
             text = "are you looking for today?",
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontSize = 20.sp,
-                lineHeight = 28.sp,
-                fontWeight = FontWeight.Normal,
-                letterSpacing = (-0.45).sp,
-                color = Color(0xFF4A5565)
-            )
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontWeight = FontWeight.Normal
+            ),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

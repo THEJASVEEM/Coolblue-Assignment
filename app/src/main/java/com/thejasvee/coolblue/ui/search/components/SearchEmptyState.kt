@@ -18,7 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 
 @Composable
 fun SearchEmptyState(
@@ -27,15 +29,16 @@ fun SearchEmptyState(
     description: String,
     imageBackgroundColor: Color,
     modifier: Modifier = Modifier,
+    backgroundSize: Dp = 120.dp,
+    imageSize: Dp = 55.dp
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .size(120.dp)
+                .size(backgroundSize)
                 .clip(CircleShape)
                 .background(imageBackgroundColor),
             contentAlignment = Alignment.Center
@@ -43,21 +46,23 @@ fun SearchEmptyState(
             Image(
                 painter = painterResource(id = imageRes),
                 contentDescription = null,
-                modifier = Modifier.size(55.dp)
+                modifier = Modifier.size(imageSize)
             )
         }
 
         Text(
             text = title,
-            modifier = Modifier.padding(top = 24.dp),
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = CoolblueSpacing.Xl),
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
 
         Text(
             text = description,
-            modifier = Modifier.padding(top = 12.dp),
+            modifier = Modifier.padding(top = CoolblueSpacing.Md),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
