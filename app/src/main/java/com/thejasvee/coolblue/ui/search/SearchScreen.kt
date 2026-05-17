@@ -12,6 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.thejasvee.coolblue.ui.search.components.InitialSearchEmptyState
+import com.thejasvee.coolblue.ui.search.components.NoProductsFoundState
+import com.thejasvee.coolblue.ui.search.components.SearchErrorState
+import com.thejasvee.coolblue.ui.search.components.SearchLoadingState
+import com.thejasvee.coolblue.ui.search.components.SearchResultsPlaceholder
 
 @Composable
 fun SearchScreen(
@@ -53,14 +58,35 @@ fun SearchScreen(
             )
         )
 
-        Text(
-            text = "Products: ${state.products.size}",
-            modifier = Modifier.padding(top = 16.dp)
-        )
+        when {
+            state.isInitialLoading -> {
+                SearchLoadingState()
+            }
 
-        Text(text = "Loading: ${state.isInitialLoading}")
+            state.errorMessage != null -> {
+                SearchErrorState(
+                    message = state.errorMessage,
+                    onRetryClick = {
+                        onEvent(SearchUiEvent.RetryClicked)
+                    }
+                )
+            }
 
-        Text(text = "Error: ${state.errorMessage.orEmpty()}")
+            !state.hasSearched -> {
+                InitialSearchEmptyState()
+            }
+
+            state.products.isEmpty() -> {
+                NoProductsFoundState()
+            }
+
+            else -> {
+                SearchResultsPlaceholder(
+                    productCount = state.products.size,
+                    totalResults = state.totalResults
+                )
+            }
+        }
     }
 
 }
