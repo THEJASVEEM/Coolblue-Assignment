@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface ProductApi {
 
-    @GET
+    @GET("search")
     suspend fun searchProducts(
         @Query("que") query: String,
         @Query("page") page: Int,
