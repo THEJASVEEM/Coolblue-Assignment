@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.thejasvee.coolblue.domain.model.Product
@@ -67,7 +68,7 @@ fun ProductGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         state = gridState,
-        modifier = modifier,
+        modifier = modifier.testTag("ProductGrid"),
         contentPadding = PaddingValues(
             bottom = CoolblueSpacing.Xl
         ),
@@ -96,7 +97,9 @@ fun ProductGrid(
             ) {
                 PaginationErrorFooter(
                     message = paginationErrorMessage,
-                    onRetryClick = onRetryPagination
+                    onRetryClick = onRetryPagination,
+                    modifier = Modifier.testTag("PaginationErrorFooter")
+
                 )
             }
         }
@@ -121,7 +124,7 @@ private fun PaginationLoadingFooter(
 private fun PaginationErrorFooter(
     message: String,
     onRetryClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier,
 ) {
     Column(
         modifier = modifier
@@ -155,7 +158,8 @@ private fun PaginationErrorFooter(
             border = BorderStroke(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.error.copy(alpha = 0.35f)
-            )
+            ),
+            modifier = Modifier.testTag("PaginationRetryButton")
         )
     }
 }
