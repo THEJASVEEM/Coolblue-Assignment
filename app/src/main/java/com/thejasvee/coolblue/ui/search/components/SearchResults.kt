@@ -7,8 +7,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.thejasvee.coolblue.domain.model.Product
+import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 
 @Composable
 fun SearchResults(
@@ -24,7 +24,7 @@ fun SearchResults(
     ) {
         Text(
             text = "Found ${products.size} products",
-            modifier = Modifier.padding(top = 20.dp),
+            modifier = Modifier.padding(top = CoolblueSpacing.Xl),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -38,7 +38,7 @@ fun SearchResults(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(top = 16.dp)
+                .padding(top = CoolblueSpacing.Lg)
         )
     }
 }

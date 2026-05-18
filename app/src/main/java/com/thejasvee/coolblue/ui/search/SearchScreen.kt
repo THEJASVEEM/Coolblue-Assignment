@@ -63,65 +63,8 @@ fun SearchScreen(
                         bottom = CoolblueSpacing.Xl
                     ),
                 )
-
                 when {
-                    state.isInitialLoading -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .padding(bottom = 96.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            SearchLoadingState()
-                        }
-                    }
-
-                    state.errorMessage != null -> {
-                        SearchErrorState(
-                            message = state.errorMessage,
-                            onRetryClick = {
-                                onEvent(SearchUiEvent.RetryClicked)
-                            }
-                        )
-                    }
-
-                    !state.hasSearched -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .padding(bottom = 96.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            SearchEmptyState(
-                                imageRes = R.drawable.ic_empty_box,
-                                title = "Start searching",
-                                description = "Search for phones to see results",
-                                imageBackgroundColor = initialSearchIconBackgroundColor()
-                            )
-                        }
-
-                    }
-
-                    state.products.isEmpty() -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .padding(bottom = 72.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            SearchEmptyState(
-                                imageRes = R.drawable.ic_no_results,
-                                title = "No results found",
-                                description = "We couldn't find any products matching \"${state.query}\"",
-                                imageBackgroundColor = noResultsIconBackgroundColor()
-                            )
-                        }
-                    }
-
-                    else -> {
+                    state.products.isNotEmpty() -> {
                         SearchResults(
                             products = state.products,
                             isLoadingMore = state.isLoadingMore,
@@ -133,6 +76,54 @@ fun SearchScreen(
                                 onEvent(SearchUiEvent.LoadNextPage)
                             },
                         )
+                    }
+
+                    else -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .padding(bottom = 96.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            when {
+                                state.isInitialLoading -> {
+                                    SearchLoadingState()
+                                }
+
+                                state.errorMessage != null -> {
+                                    SearchErrorState(
+                                        message = state.errorMessage,
+                                        onRetryClick = {
+                                            onEvent(SearchUiEvent.RetryClicked)
+                                        }
+                                    )
+                                }
+
+                                !state.hasSearched -> {
+                                    SearchEmptyState(
+                                        imageRes = R.drawable.ic_empty_box,
+                                        title = "Start searching",
+                                        description = "Search for phones to see results",
+                                        imageBackgroundColor = initialSearchIconBackgroundColor()
+                                    )
+                                }
+
+                                state.products.isEmpty() -> {
+                                    SearchEmptyState(
+                                        imageRes = R.drawable.ic_no_results,
+                                        title = "No results found",
+                                        description = "We couldn't find any products matching \"${state.query}\"",
+                                        imageBackgroundColor = noResultsIconBackgroundColor(),
+                                        suggestions = listOf("iPhone", "MacBook", "Apple"),
+                                        onSuggestionClick = { suggestion ->
+                                            onEvent(SearchUiEvent.QueryChanged(suggestion))
+                                            onEvent(SearchUiEvent.SearchSubmitted)
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }

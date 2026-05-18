@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.thejasvee.coolblue.domain.model.Product
+import com.thejasvee.coolblue.ui.theme.CoolblueRadius
 import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 
 @Composable
@@ -20,7 +21,7 @@ fun ProductCard(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(CoolblueSpacing.Lg),
+        shape = RoundedCornerShape(CoolblueRadius.Md),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),

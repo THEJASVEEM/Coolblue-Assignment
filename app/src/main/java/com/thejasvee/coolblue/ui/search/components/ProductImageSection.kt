@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.thejasvee.coolblue.domain.model.Product
 import com.thejasvee.coolblue.domain.model.ProductPromoType
+import com.thejasvee.coolblue.ui.theme.CoolblueRadius
 import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 
 @Composable
@@ -43,7 +44,7 @@ fun ProductImageSection(
                 contentDescription = product.name,
                 modifier = Modifier
                     .fillMaxWidth(0.80f)
-                    .height(300.dp)
+                    .height(250.dp)
                     .align(Alignment.Center),
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.TopCenter
@@ -52,7 +53,7 @@ fun ProductImageSection(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(CoolblueRadius.Md))
                     .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
             ) {
@@ -90,7 +91,7 @@ private fun PromoBadge(
 
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(CoolblueRadius.Md),
         color = backgroundColor
     ) {
         Text(

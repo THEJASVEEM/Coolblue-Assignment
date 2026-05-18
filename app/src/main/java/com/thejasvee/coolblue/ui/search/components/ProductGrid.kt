@@ -1,5 +1,7 @@
 package com.thejasvee.coolblue.ui.search.components
 
+import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,10 +13,12 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -22,8 +26,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.thejasvee.coolblue.domain.model.Product
+import com.thejasvee.coolblue.ui.theme.CoolblueRadius
+import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 
 @Composable
 fun ProductGrid(
@@ -61,10 +69,10 @@ fun ProductGrid(
         state = gridState,
         modifier = modifier,
         contentPadding = PaddingValues(
-            bottom = 24.dp
+            bottom = CoolblueSpacing.Xl
         ),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(CoolblueSpacing.Md),
+        verticalArrangement = Arrangement.spacedBy(CoolblueSpacing.Lg)
     ) {
         items(
             items = products,
@@ -102,7 +110,7 @@ private fun PaginationLoadingFooter(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp),
+            .padding(vertical = CoolblueSpacing.Lg),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
@@ -118,19 +126,36 @@ private fun PaginationErrorFooter(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp),
+            .padding(vertical = CoolblueSpacing.Xl),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.error
-        )
+        val context = LocalContext.current
 
-        TextButton(
-            onClick = onRetryClick
-        ) {
-            Text(text = "Retry")
+        LaunchedEffect(message) {
+            Toast.makeText(
+                context,
+                message,
+                Toast.LENGTH_SHORT
+            ).show()
         }
+
+        AssistChip(
+            onClick = onRetryClick,
+            label = {
+                Text(
+                    text = "Retry",
+                    fontWeight = FontWeight.Medium
+                )
+            },
+            shape = RoundedCornerShape(CoolblueRadius.Pill),
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                labelColor = MaterialTheme.colorScheme.error
+            ),
+            border = BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.error.copy(alpha = 0.35f)
+            )
+        )
     }
 }

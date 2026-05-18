@@ -21,8 +21,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import com.thejasvee.coolblue.R
+import com.thejasvee.coolblue.ui.theme.CoolblueSize.SearchIcon
+import com.thejasvee.coolblue.ui.theme.CoolblueSize.SearchInputHeight
+import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 
 
 @Composable
@@ -41,7 +43,7 @@ fun SearchInput(
         onValueChange = onQueryChange,
         modifier = modifier
             .fillMaxWidth()
-            .height(52.dp),
+            .height(SearchInputHeight),
         placeholder = {
             Text(
                 text = "Search for phones",
@@ -50,7 +52,7 @@ fun SearchInput(
             )
         },
         singleLine = true,
-        shape = RoundedCornerShape(14.dp),
+        shape = RoundedCornerShape(CoolblueSpacing.Lg),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Search
         ),
@@ -65,7 +67,7 @@ fun SearchInput(
             Image(
                 painter = painterResource(id = R.drawable.ic_search_icon),
                 contentDescription = null,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(SearchIcon)
             )
         },
         trailingIcon = {

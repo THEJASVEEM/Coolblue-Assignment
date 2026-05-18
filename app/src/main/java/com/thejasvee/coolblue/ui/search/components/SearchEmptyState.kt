@@ -30,7 +30,9 @@ fun SearchEmptyState(
     imageBackgroundColor: Color,
     modifier: Modifier = Modifier,
     backgroundSize: Dp = 120.dp,
-    imageSize: Dp = 55.dp
+    imageSize: Dp = 55.dp,
+    suggestions: List<String> = emptyList(),
+    onSuggestionClick: (String) -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -67,5 +69,13 @@ fun SearchEmptyState(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
+
+        if (suggestions.isNotEmpty()) {
+            SearchSuggestions(
+                suggestions = suggestions,
+                onSuggestionClick = onSuggestionClick,
+                modifier = Modifier.padding(top = CoolblueSpacing.Xxl)
+            )
+        }
     }
 }

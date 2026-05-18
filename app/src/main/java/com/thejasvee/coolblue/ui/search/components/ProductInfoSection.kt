@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.thejasvee.coolblue.domain.model.Product
+import com.thejasvee.coolblue.ui.theme.CoolblueRadius
 import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
 import com.thejasvee.coolblue.ui.theme.OrangePrimary
 import com.thejasvee.coolblue.ui.theme.RatingStarColor
@@ -150,7 +151,7 @@ private fun DeliveryBadge(
 ) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(CoolblueRadius.Md),
         color = Color.Transparent,
         border = BorderStroke(
             width = 1.dp,
@@ -174,7 +175,10 @@ private fun DeliveryBadge(
 
             Text(
                 text = "Tomorrow",
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 0.dp),
+                modifier = Modifier.padding(
+                    horizontal = CoolblueSpacing.Sm,
+                    vertical = 0.dp
+                ),
                 style = MaterialTheme.typography.labelSmall,
                 color = Success,
                 fontWeight = FontWeight.Medium
