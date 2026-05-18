@@ -12,8 +12,12 @@ import com.thejasvee.coolblue.domain.model.Product
 
 @Composable
 fun SearchResults(
+    products: List<Product>,
+    isLoadingMore: Boolean,
+    paginationErrorMessage: String?,
+    onLoadNextPage: () -> Unit,
+    onRetryPagination: () -> Unit,
     modifier: Modifier = Modifier,
-    products: List<Product>
 ) {
     Column(
         modifier = modifier
@@ -27,6 +31,10 @@ fun SearchResults(
 
         ProductGrid(
             products = products,
+            isLoadingMore = isLoadingMore,
+            paginationErrorMessage = paginationErrorMessage,
+            onLoadNextPage = onLoadNextPage,
+            onRetryPagination = onRetryPagination,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)

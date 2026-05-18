@@ -55,6 +55,9 @@ fun SearchScreen(
                     onSearch = {
                         onEvent(SearchUiEvent.SearchSubmitted)
                     },
+                    onClearClick = {
+                        onEvent(SearchUiEvent.ClearSearchClicked)
+                    },
                     modifier = Modifier.padding(
                         top = CoolblueSpacing.Xl,
                         bottom = CoolblueSpacing.Xl
@@ -121,6 +124,14 @@ fun SearchScreen(
                     else -> {
                         SearchResults(
                             products = state.products,
+                            isLoadingMore = state.isLoadingMore,
+                            paginationErrorMessage = state.paginationErrorMessage,
+                            onLoadNextPage = {
+                                onEvent(SearchUiEvent.LoadNextPage)
+                            },
+                            onRetryPagination = {
+                                onEvent(SearchUiEvent.LoadNextPage)
+                            },
                         )
                     }
                 }

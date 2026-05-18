@@ -11,4 +11,6 @@ sealed interface SearchUiEvent {
     data object RetryClicked : SearchUiEvent
 
     data object LoadNextPage : SearchUiEvent
+
+    data object ClearSearchClicked : SearchUiEvent
 }

@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.thejasvee.coolblue.core.result.AppResult
 import com.thejasvee.coolblue.domain.usecase.SearchProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,9 +22,11 @@ class SearchViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(SearchUiState())
 
-    val uiState: StateFlow<SearchUiState> = _uiState
+    val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     private var searchJob: Job? = null
+    private var paginationJob: Job? = null  // separate from searchJob
+
 
     fun onEvent(event: SearchUiEvent) {
         when (event) {
@@ -29,6 +34,7 @@ class SearchViewModel @Inject constructor(
             is SearchUiEvent.SearchSubmitted -> onSearchSubmitted()
             is SearchUiEvent.RetryClicked -> onSearchSubmitted()
             is SearchUiEvent.LoadNextPage -> onLoadNextPage()
+            is SearchUiEvent.ClearSearchClicked -> onSearchCleared()
         }
     }
 
@@ -47,6 +53,8 @@ class SearchViewModel @Inject constructor(
         val query = _uiState.value.query
 
         searchJob?.cancel()
+        paginationJob?.cancel()
+        
         searchJob = viewModelScope.launch {
             _uiState.update {
                 it.copy(
@@ -94,9 +102,11 @@ class SearchViewModel @Inject constructor(
 
         if (!state.canLoadMore) return
 
+        if (paginationJob?.isActive == true) return
+
         val nextPage = state.currentPage + 1
 
-        viewModelScope.launch {
+        paginationJob = viewModelScope.launch {
             _uiState.update {
                 it.copy(
                     isLoadingMore = true,
@@ -108,11 +118,15 @@ class SearchViewModel @Inject constructor(
                 is AppResult.Success -> {
                     val data = result.data
 
+                    val mergedList = withContext(Dispatchers.Default) {
+                        state.products + data.products
+                    }
+
                     _uiState.update {
                         it.copy(
                             isLoadingMore = false,
                             paginationErrorMessage = null,
-                            products = it.products + data.products,
+                            products = mergedList,
                             currentPage = data.currentPage,
                             totalResults = data.totalResults,
                             pageCount = data.pageCount,
@@ -130,6 +144,12 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun onSearchCleared() {
+        searchJob?.cancel()
+        paginationJob?.cancel()
+        _uiState.value = SearchUiState()
     }
 
     private companion object {
