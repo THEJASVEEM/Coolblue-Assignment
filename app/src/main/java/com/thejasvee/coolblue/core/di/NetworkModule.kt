@@ -1,5 +1,6 @@
 package com.thejasvee.coolblue.core.di
 
+import com.thejasvee.coolblue.BuildConfig
 import com.thejasvee.coolblue.core.network.NetworkConstants
 import com.thejasvee.coolblue.data.remote.api.ProductApi
 import dagger.Module
@@ -32,7 +33,11 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
+                    level = if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BASIC
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
                 }
             )
             .build()
