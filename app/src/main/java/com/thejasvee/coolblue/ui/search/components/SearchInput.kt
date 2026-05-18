@@ -13,6 +13,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,9 @@ fun SearchInput(
     onSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedTextField(
         value = query,
         onValueChange = onQueryChange,
@@ -47,6 +52,8 @@ fun SearchInput(
         keyboardActions = KeyboardActions(
             onSearch = {
                 onSearch()
+                focusManager.clearFocus()
+                keyboardController?.hide()
             }
         ),
         leadingIcon = {

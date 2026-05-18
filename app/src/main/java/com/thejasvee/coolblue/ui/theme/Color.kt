@@ -6,7 +6,10 @@ import androidx.compose.ui.graphics.Color
 val CoolbluePrimary = Color(0xFF0290FF)
 val OrangePrimary = Color(0xFFFF6B35)
 
+val RatingStarColor = Color(0xFFF5A400)
+
 // Status
+val Success = Color(0xFF10B981)
 val Error = Color(0xFFEF4444)
 
 // Light theme text/surface
@@ -20,14 +23,9 @@ val LightSurfaceVariant = Color(0xFFF3F4F6)
 // Dark theme text/surface
 val DarkPrimaryText = Color(0xFFF9FAFB)
 val DarkSecondaryText = Color(0xFFD1D5DB)
+
 val DarkBorder = Color(0xFF374151)
 val DarkBackground = Color(0xFF111827)
 val DarkSurface = Color(0xFF1F2937)
 val DarkSurfaceVariant = Color(0xFF273244)
 
-// Empty state backgrounds
-val EmptyOrangeBackgroundLight = Color(0xFFFFE4BD)
-val EmptyGreyBackgroundLight = Color(0xFFEDEFF3)
-
-val EmptyOrangeBackgroundDark = Color(0xFF3A2A1B)
-val EmptyGreyBackgroundDark = Color(0xFF252C36)

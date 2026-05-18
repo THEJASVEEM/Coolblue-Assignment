@@ -1,6 +1,5 @@
 package com.thejasvee.coolblue.ui.search
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,12 +17,10 @@ import com.thejasvee.coolblue.ui.search.components.SearchErrorState
 import com.thejasvee.coolblue.ui.search.components.SearchHeader
 import com.thejasvee.coolblue.ui.search.components.SearchInput
 import com.thejasvee.coolblue.ui.search.components.SearchLoadingState
-import com.thejasvee.coolblue.ui.search.components.SearchResultsPlaceholder
+import com.thejasvee.coolblue.ui.search.components.SearchResults
 import com.thejasvee.coolblue.ui.theme.CoolblueSpacing
-import com.thejasvee.coolblue.ui.theme.EmptyGreyBackgroundDark
-import com.thejasvee.coolblue.ui.theme.EmptyGreyBackgroundLight
-import com.thejasvee.coolblue.ui.theme.EmptyOrangeBackgroundDark
-import com.thejasvee.coolblue.ui.theme.EmptyOrangeBackgroundLight
+import com.thejasvee.coolblue.ui.theme.initialSearchIconBackgroundColor
+import com.thejasvee.coolblue.ui.theme.noResultsIconBackgroundColor
 
 @Composable
 fun SearchScreen(
@@ -94,25 +91,17 @@ fun SearchScreen(
                                 .padding(bottom = 96.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            val isDarkTheme = isSystemInDarkTheme()
                             SearchEmptyState(
                                 imageRes = R.drawable.ic_empty_box,
                                 title = "Start searching",
                                 description = "Search for phones to see results",
-                                imageBackgroundColor = if (isDarkTheme) {
-                                    EmptyOrangeBackgroundDark
-                                } else {
-                                    EmptyOrangeBackgroundLight
-                                }
-
-
+                                imageBackgroundColor = initialSearchIconBackgroundColor()
                             )
                         }
 
                     }
 
                     state.products.isEmpty() -> {
-                        val isDarkTheme = isSystemInDarkTheme()
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -124,19 +113,14 @@ fun SearchScreen(
                                 imageRes = R.drawable.ic_no_results,
                                 title = "No results found",
                                 description = "We couldn't find any products matching \"${state.query}\"",
-                                imageBackgroundColor = if (isDarkTheme) {
-                                    EmptyGreyBackgroundDark
-                                } else {
-                                    EmptyGreyBackgroundLight
-                                }
+                                imageBackgroundColor = noResultsIconBackgroundColor()
                             )
                         }
                     }
 
                     else -> {
-                        SearchResultsPlaceholder(
-                            productCount = state.products.size,
-                            totalResults = state.totalResults
+                        SearchResults(
+                            products = state.products,
                         )
                     }
                 }
